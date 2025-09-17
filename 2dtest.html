@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leaflet Simple Country Marker</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<style>
+  html, body { margin:0; padding:0; height:100%; }
+  #map { width:100%; height:100%; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  const map = L.map('map', {
+    zoomControl: false,
+    dragging: true,
+    scrollWheelZoom: false,
+    doubleClickZoom: false
+  }).setView([20, 0], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // 국가별 간단한 CircleMarker 표시
+  const countries = [
+    { name: '대한민국', coords: [37.5665, 126.9780], color: '#ff4444', info: '수도: 서울' },
+    { name: '미국', coords: [38.9072, -77.0369], color: '#4488ff', info: '수도: 워싱턴 D.C.' },
+    { name: '일본', coords: [35.6895, 139.6917], color: '#44ff88', info: '수도: 도쿄' }
+  ];
+
+  countries.forEach(c => {
+    L.circleMarker(c.coords, {
+      radius: 6,
+      fillColor: c.color,
+      color: '#fff',
+      weight: 1,
+      fillOpacity: 0.9
+    }).addTo(map)
+      .bindPopup(`<b>${c.name}</b><br>${c.info}<br><button onclick="alert('${c.name} 정보 보기')">자세히</button>`)
+      .bindTooltip(c.name, { direction: 'top' });
+  });
+</script>
+</body>
+</html>
