@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaflet World Map</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <style>
+    #map {
+      height: 500px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script>
+    // 지도 초기화 (상호작용 비활성화: 드래그/줌 불가)
+    var map = L.map('map', {
+      zoomControl: false,
+      dragging: true,
+      scrollWheelZoom: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      keyboard: false,
+      worldCopyJump: false
+    }).setView([20, 0], 2);
+
+    // OpenStreetMap 타일 불러오기
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // 미국 (워싱턴 D.C.)
+    var usaMarker = L.marker([38.9072, -77.0369]).addTo(map);
+    usaMarker.bindPopup("<b>미국</b><br>수도: 워싱턴 D.C.<br><button onclick='alert(\"미국 정보 보기\")'>자세히</button>");
+
+    // 한국 (서울)
+    var koreaMarker = L.marker([37.5665, 126.9780]).addTo(map);
+    koreaMarker.bindPopup("<b>대한민국</b><br>수도: 서울<br><button onclick='alert(\"한국 정보 보기\")'>자세히</button>");
+  </script>
+</body>
+</html>
