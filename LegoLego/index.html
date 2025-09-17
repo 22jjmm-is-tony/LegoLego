@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레고 모델링 스튜디오</title>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Chart.js for dashboard -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div class="sidebar-title">레고 스튜디오</div>
+            </div>
+            
+            <div class="sidebar-nav">
+                <!-- Main Navigation -->
+                <div class="nav-section">
+                    <div class="nav-section-title">작업공간</div>
+                    <a href="#" class="nav-item active" data-page="modeling">
+                        <div class="icon">
+                            <i class="fas fa-hammer"></i>
+                        </div>
+                        <div class="text">모델링</div>
+                    </a>
+                    <a href="#" class="nav-item" data-page="dashboard">
+                        <div class="icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <div class="text">대시보드</div>
+                    </a>
+                    <div class="nav-item" data-dropdown="models">
+                        <div class="icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="text">저장된 모델</div>
+                        <div class="arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="nav-submenu" id="modelsSubmenu">
+                        <a href="#" class="nav-item">
+                            <div class="icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <div class="text">내 모델들</div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <div class="icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="text">즐겨찾기</div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <div class="icon">
+                                <i class="fas fa-history"></i>
+                            </div>
+                            <div class="text">최근 작업</div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Tools Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">도구</div>
+                    <div class="nav-item" data-dropdown="tools">
+                        <div class="icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <div class="text">고급 도구</div>
+                        <div class="arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    <div class="nav-submenu" id="toolsSubmenu">
+                        <a href="#" class="nav-item">
+                            <div class="icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div class="text">자동 정렬</div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <div class="icon">
+                                <i class="fas fa-copy"></i>
+                            </div>
+                            <div class="text">복제 도구</div>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <div class="icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <div class="text">색상 테마</div>
+                        </a>
+                    </div>
+                    <a href="#" class="nav-item">
+                        <div class="icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="text">내보내기</div>
+                    </a>
+                </div>
+                
+                <!-- Settings Section -->
+                <div class="nav-section">
+                    <div class="nav-section-title">설정</div>
+                    <a href="#" class="nav-item">
+                        <div class="icon">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <div class="text">환경설정</div>
+                    </a>
+                    <a href="#" class="nav-item">
+                        <div class="icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="text">도움말</div>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="top-bar-left">
+                    <button class="sidebar-toggle" id="sidebarToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <div class="breadcrumb-item">
+                            <i class="fas fa-home"></i>
+                            <span>홈</span>
+                        </div>
+                        <div class="breadcrumb-separator">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="breadcrumb-item">
+                            <span id="currentPageTitle">모델링</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-bar-right">
+                    <button class="theme-toggle" id="themeToggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Modeling Page -->
+                <div class="page" id="modelingPage">
+                    <div class="page-container">
+                        <div class="page-header">
+                            <h1 class="page-title">레고 모델링</h1>
+                            <p class="page-subtitle">창의적인 레고 모델을 만들어보세요. 블록을 추가하고, 이동하고, 색상을 변경하여 원하는 모델을 구성할 수 있습니다.</p>
+                        </div>
+                        
+                        <div class="dashboard-grid" style="grid-template-columns: 320px 1fr;">
+                            <!-- Control Panel -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-sliders-h"></i>
+                                        제어 패널
+                                    </h2>
+                                </div>
+                                <div class="card-content">
+                                    <div class="control-panel">
+                                        <!-- Block Type -->
+                                        <div class="control-group">
+                                            <label class="control-label">블록 타입</label>
+                                            <select id="blockType" class="control-input control-select">
+                                                <option value="2x2">2x2 블록</option>
+                                                <option value="2x4">2x4 블록</option>
+                                                <option value="1x1">1x1 블록</option>
+                                                <option value="1x2">1x2 블록</option>
+                                                <option value="1x4">1x4 블록</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Block Color -->
+                                        <div class="control-group">
+                                            <label class="control-label">블록 색상</label>
+                                            <div class="color-palette">
+                                                <button class="color-btn selected" data-color="#ef4444" style="background-color: #ef4444;"></button>
+                                                <button class="color-btn" data-color="#3b82f6" style="background-color: #3b82f6;"></button>
+                                                <button class="color-btn" data-color="#10b981" style="background-color: #10b981;"></button>
+                                                <button class="color-btn" data-color="#eab308" style="background-color: #eab308;"></button>
+                                                <button class="color-btn" data-color="#8b5cf6" style="background-color: #8b5cf6;"></button>
+                                                <button class="color-btn" data-color="#ec4899" style="background-color: #ec4899;"></button>
+                                                <button class="color-btn" data-color="#f97316" style="background-color: #f97316;"></button>
+                                                <button class="color-btn" data-color="#6b7280" style="background-color: #6b7280;"></button>
+                                            </div>
+                                            <input type="color" id="customColor" class="control-input" value="#ef4444" style="margin-top: 8px;">
+                                        </div>
+                                        
+                                        <!-- Block Size -->
+                                        <div class="control-group">
+                                            <label class="control-label">블록 크기</label>
+                                            <div class="range-container">
+                                                <input type="range" id="blockSize" class="range-slider" min="20" max="100" value="40">
+                                                <div class="range-labels">
+                                                    <span>작게</span>
+                                                    <span class="range-value" id="sizeValue">40px</span>
+                                                    <span>크게</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Block Count -->
+                                        <div class="control-group">
+                                            <label class="control-label">블록 개수</label>
+                                            <div class="number-input-container">
+                                                <button class="number-btn" id="decreaseCount">
+                                                    <i class="fas fa-minus"></i>
+                                                </button>
+                                                <input type="number" id="blockCount" class="control-input number-input" value="1" min="1" max="100">
+                                                <button class="number-btn" id="increaseCount">
+                                                    <i class="fas fa-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Action Buttons -->
+                                        <div class="control-group">
+                                            <button id="addBlocks" class="btn btn-primary btn-full">
+                                                <i class="fas fa-plus"></i>
+                                                블록 추가
+                                            </button>
+                                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+                                                <button id="undoAction" class="btn btn-secondary btn-sm">
+                                                    <i class="fas fa-undo"></i>
+                                                    되돌리기
+                                                </button>
+                                                <button id="gridToggle" class="btn btn-secondary btn-sm">
+                                                    <i class="fas fa-th"></i>
+                                                    격자
+                                                </button>
+                                            </div>
+                                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+                                                <button id="saveModel" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-save"></i>
+                                                    저장
+                                                </button>
+                                                <button id="clearAll" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                    지우기
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Statistics -->
+                                        <div class="control-group">
+                                            <label class="control-label">현재 통계</label>
+                                            <div class="stats-container">
+                                                <div class="stat-item">
+                                                    <span class="stat-label">총 블록</span>
+                                                    <span class="stat-value" id="totalBlocks">0</span>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <span class="stat-label">사용된 색상</span>
+                                                    <span class="stat-value" id="usedColors">0</span>
+                                                </div>
+                                                <div class="stat-item">
+                                                    <span class="stat-label">격자 스냅</span>
+                                                    <span class="stat-value" id="gridSnapStatus">활성화</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Building Area -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-hammer"></i>
+                                        빌딩 영역
+                                    </h2>
+                                </div>
+                                <div class="card-content" style="padding: 0;">
+                                    <div id="buildingArea" class="building-area grid-enabled">
+                                        <div class="building-placeholder">
+                                            <div class="icon">
+                                                <i class="fas fa-cubes"></i>
+                                            </div>
+                                            <div class="title">레고 블록을 추가해보세요!</div>
+                                            <div class="subtitle">좌측 제어 패널에서 블록을 설정하고 '블록 추가'를 클릭하거나<br>여기를 직접 클릭하여 블록을 추가할 수 있습니다.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Page -->
+                <div class="page" id="dashboardPage" style="display: none;">
+                    <div class="page-container">
+                        <div class="page-header">
+                            <h1 class="page-title">대시보드</h1>
+                            <p class="page-subtitle">현재 모델링 작업의 통계와 분석 정보를 확인할 수 있습니다.</p>
+                        </div>
+                        
+                        <div class="dashboard-grid">
+                            <!-- Statistics Cards -->
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <div class="dashboard-card-icon">
+                                        <i class="fas fa-cubes"></i>
+                                    </div>
+                                    <div class="dashboard-card-title">총 블록 수</div>
+                                </div>
+                                <div class="dashboard-card-value" id="dashTotalBlocks">0</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);">현재 모델의 전체 블록 개수</div>
+                            </div>
+                            
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <div class="dashboard-card-icon" style="background-color: var(--accent-green); color: white;">
+                                        <i class="fas fa-palette"></i>
+                                    </div>
+                                    <div class="dashboard-card-title">사용된 색상</div>
+                                </div>
+                                <div class="dashboard-card-value" id="dashUsedColors" style="color: var(--accent-green);">0</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);">모델에 사용된 색상 종류</div>
+                            </div>
+                            
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <div class="dashboard-card-icon" style="background-color: var(--accent-purple); color: white;">
+                                        <i class="fas fa-bookmark"></i>
+                                    </div>
+                                    <div class="dashboard-card-title">저장된 모델</div>
+                                </div>
+                                <div class="dashboard-card-value" id="dashSavedModels" style="color: var(--accent-purple);">0</div>
+                                <div style="font-size: 13px; color: var(--text-secondary);">로컬에 저장된 모델 수</div>
+                            </div>
+                            
+                            <!-- Block Type Chart -->
+                            <div class="dashboard-card" style="grid-column: span 2;">
+                                <div class="dashboard-card-header">
+                                    <div class="dashboard-card-icon" style="background-color: var(--accent-yellow); color: white;">
+                                        <i class="fas fa-chart-pie"></i>
+                                    </div>
+                                    <div class="dashboard-card-title">블록 타입 분포</div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="blockTypeChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <!-- Color Distribution Chart -->
+                            <div class="dashboard-card">
+                                <div class="dashboard-card-header">
+                                    <div class="dashboard-card-icon" style="background-color: var(--accent-red); color: white;">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="dashboard-card-title">색상 분포</div>
+                                </div>
+                                <div class="chart-container">
+                                    <canvas id="colorDistChart"></canvas>
+                                </div>
+                            </div>
+                            
+                            <!-- Recent Activity -->
+                            <div class="dashboard-card" style="grid-column: span 3;">
+                                <div class="dashboard-card-header">
+                                    <div class="dashboard-card-icon" style="background-color: var(--text-secondary); color: white;">
+                                        <i class="fas fa-history"></i>
+                                    </div>
+                                    <div class="dashboard-card-title">최근 활동</div>
+                                </div>
+                                <div class="activity-log" id="recentActivity">
+                                    <div style="text-align: center; padding: 40px; color: var(--text-tertiary);">
+                                        아직 활동이 없습니다.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html>
